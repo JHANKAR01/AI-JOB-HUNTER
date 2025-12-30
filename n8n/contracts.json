@@ -1,0 +1,36 @@
+{
+  "webhooks": {
+    "job-intake": {
+      "url": "POST /webhook/job-intake",
+      "description": "Receives scraped HTML from Extension, parses it via LLM, and adds to JobFlow state.",
+      "request": {
+        "url": "https://linkedin.com/jobs/view/123",
+        "rawHtml": "<html>...</html>",
+        "metadata": {
+          "title": "Engineer",
+          "description": "meta description tag content"
+        }
+      },
+      "response": {
+        "success": true,
+        "jobId": "uuid-123"
+      }
+    },
+    "tailor-resume": {
+      "url": "POST /webhook/tailor-resume",
+      "description": "Generates a tailored PDF based on the job context and user profile.",
+      "request": {
+        "jobId": "uuid-123",
+        "jobDescription": {
+          "title": "Engineer",
+          "requirements": ["React", "Python"]
+        },
+        "userProfile": {
+          "experience": [],
+          "education": []
+        }
+      },
+      "response": "Binary Stream (application/pdf)"
+    }
+  }
+}
