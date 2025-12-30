@@ -64,9 +64,15 @@ export interface JobFlowState {
 }
 
 // Messaging Types
-export type MessageType = 'QUICK_ADD_JOB' | 'OPEN_DASHBOARD' | 'STATE_UPDATED';
+export type MessageType = 'QUICK_ADD_JOB' | 'OPEN_DASHBOARD' | 'STATE_UPDATED' | 'TRIGGER_AUTOFILL';
 
 export interface QuickAddRequest {
   type: 'QUICK_ADD_JOB';
   url: string;
+}
+
+export interface TriggerAutofillRequest {
+  type: 'TRIGGER_AUTOFILL';
+  profile: UserConfig['profile'];
+  preferences: UserConfig['preferences'];
 }

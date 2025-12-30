@@ -1,14 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useJobFlowStore } from '../store';
+import { TriggerAutofillRequest } from '../types';
 
 declare var chrome: any;
 
 export const SidePanel: React.FC = () => {
-  const { appState, jobs } = useJobFlowStore();
+  const { appState, jobs, config } = useJobFlowStore();
   const activeJob = appState.activeJobId ? jobs[appState.activeJobId] : null;
+  const [isAutofilling, setIsAutofilling] = useState(false);
 
   const openDashboard = () => {
     chrome.tabs.create({ url: 'index.html?view=dashboard' });
+  };
+
+  const handleAutofill = async () => {
+    setIsAutofilling(true);
+    try {
+        const msg: TriggerAutofillRequest = {
+            type: 'TRIGGER_AUTOFILL',
+            profile: config.profile,
+            preferences: config.preferences
+        };
+        await chrome.runtime.sendMessage(msg);
+    } catch (e) {
+        console.error("Autofill failed", e);
+    } finally {
+        // Short timeout to reset UI state
+        setTimeout(() => setIsAutofilling(false), 2000);
+    }
   };
 
   return (
@@ -46,8 +65,12 @@ export const SidePanel: React.FC = () => {
 
             {/* Actions */}
             <div className="space-y-2">
-              <button className="w-full bg-indigo-600 text-white py-2 rounded shadow-sm hover:bg-indigo-700 transition font-medium">
-                Auto-Fill Application
+              <button 
+                onClick={handleAutofill}
+                disabled={isAutofilling}
+                className="w-full bg-indigo-600 text-white py-2 rounded shadow-sm hover:bg-indigo-700 transition font-medium disabled:opacity-70 flex justify-center items-center"
+              >
+                {isAutofilling ? 'Filing...' : 'Auto-Fill Application'}
               </button>
               <button className="w-full bg-white border border-gray-300 text-gray-700 py-2 rounded hover:bg-gray-50 font-medium">
                 Regenerate Resume
