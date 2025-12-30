@@ -29,6 +29,10 @@ export interface UserConfig {
     phone: string;
     linkedinUrl: string;
     portfolioUrl: string;
+    // Basic array structure for experience/education to support resume gen
+    experience: any[];
+    education: any[];
+    skills: string[];
   };
   preferences: {
     noticePeriod: string;
@@ -41,6 +45,11 @@ export interface UserConfig {
   };
   n8n: {
     webhookBaseUrl: string;
+  };
+  sheets: {
+    spreadsheetId: string;
+    autoSync: boolean;
+    lastSync: number;
   };
 }
 
@@ -64,7 +73,7 @@ export interface JobFlowState {
 }
 
 // Messaging Types
-export type MessageType = 'QUICK_ADD_JOB' | 'OPEN_DASHBOARD' | 'STATE_UPDATED' | 'TRIGGER_AUTOFILL';
+export type MessageType = 'QUICK_ADD_JOB' | 'OPEN_DASHBOARD' | 'STATE_UPDATED' | 'TRIGGER_AUTOFILL' | 'DOWNLOAD_RESUME';
 
 export interface QuickAddRequest {
   type: 'QUICK_ADD_JOB';
@@ -75,4 +84,10 @@ export interface TriggerAutofillRequest {
   type: 'TRIGGER_AUTOFILL';
   profile: UserConfig['profile'];
   preferences: UserConfig['preferences'];
+}
+
+export interface DownloadResumeRequest {
+  type: 'DOWNLOAD_RESUME';
+  dataUrl: string;
+  filename: string;
 }

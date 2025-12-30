@@ -33,8 +33,11 @@ export const Dashboard: React.FC = () => {
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-10">
         <h1 className="text-xl font-bold text-indigo-600 tracking-tight">JobFlow Mission Control</h1>
-        <div className="text-sm text-gray-500">
-          State: {appState.isLoading ? 'Syncing...' : 'Connected'}
+        <div className="flex items-center gap-4">
+             <div className="text-sm text-gray-500">
+               State: {appState.isLoading ? 'Syncing...' : 'Connected'}
+             </div>
+             <a href="index.html?view=settings" className="text-sm font-medium text-indigo-600 hover:text-indigo-800">⚙️ Settings</a>
         </div>
       </header>
 
@@ -66,6 +69,7 @@ export const Dashboard: React.FC = () => {
                 <p><span className="text-gray-500">Target:</span> {config.preferences.currency} {config.preferences.salaryTarget}</p>
                 <p><span className="text-gray-500">Notice:</span> {config.preferences.noticePeriod}</p>
                 <p><span className="text-gray-500">Remote:</span> {config.preferences.remote ? 'Yes' : 'No'}</p>
+                <a href="index.html?view=settings" className="block mt-4 text-xs text-indigo-500 font-medium uppercase tracking-wide">Edit Profile →</a>
              </div>
           </div>
         </aside>

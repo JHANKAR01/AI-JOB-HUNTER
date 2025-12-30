@@ -1,4 +1,4 @@
-import { QuickAddRequest, TriggerAutofillRequest } from './types';
+import { QuickAddRequest, TriggerAutofillRequest, DownloadResumeRequest } from './types';
 import { performAutofill } from './scripts/autofill';
 
 declare var chrome: any;
@@ -18,6 +18,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       .catch((err) => sendResponse({ success: false, error: err.message }));
     return true;
   }
+
+  if (message.type === 'DOWNLOAD_RESUME') {
+      handleDownloadResume(message as DownloadResumeRequest)
+        .then(() => sendResponse({ success: true }))
+        .catch((err) => sendResponse({ success: false, error: err.message }));
+      return true;
+  }
 });
 
 if (chrome.sidePanel && chrome.sidePanel.setPanelBehavior) {
@@ -25,6 +32,14 @@ if (chrome.sidePanel && chrome.sidePanel.setPanelBehavior) {
 }
 
 // --- Handlers ---
+
+async function handleDownloadResume(req: DownloadResumeRequest) {
+    await chrome.downloads.download({
+        url: req.dataUrl,
+        filename: req.filename,
+        saveAs: true // Prompt user for location, usually safer UX
+    });
+}
 
 async function handleAutofill(req: TriggerAutofillRequest) {
   // Get the active tab in the current window

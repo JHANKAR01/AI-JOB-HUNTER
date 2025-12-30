@@ -9,11 +9,13 @@
     "scripting",
     "activeTab",
     "sidePanel",
-    "downloads"
+    "downloads",
+    "identity"
   ],
   "host_permissions": [
     "<all_urls>",
-    "http://localhost/*"
+    "http://localhost/*",
+    "https://*.googleapis.com/*"
   ],
   "background": {
     "service_worker": "src/background.ts",

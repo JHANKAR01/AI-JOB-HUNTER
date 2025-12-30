@@ -2,7 +2,8 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Dashboard } from './src/components/Dashboard';
 import { SidePanel } from './src/components/SidePanel';
-import './index.css'; // Assuming Tailwind/CSS is imported here in original boiler
+import { Settings } from './src/components/Settings';
+import './index.css';
 
 const App: React.FC = () => {
   // Simple routing based on query params set in manifest.json
@@ -11,6 +12,10 @@ const App: React.FC = () => {
 
   if (view === 'sidepanel') {
     return <SidePanel />;
+  }
+  
+  if (view === 'settings') {
+    return <Settings />;
   }
   
   // Default to Dashboard

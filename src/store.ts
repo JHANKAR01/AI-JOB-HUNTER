@@ -35,7 +35,10 @@ const DEFAULT_CONFIG: UserConfig = {
     email: '',
     phone: '',
     linkedinUrl: '',
-    portfolioUrl: ''
+    portfolioUrl: '',
+    experience: [],
+    education: [],
+    skills: []
   },
   preferences: {
     noticePeriod: '2 weeks',
@@ -48,6 +51,11 @@ const DEFAULT_CONFIG: UserConfig = {
   },
   n8n: {
     webhookBaseUrl: 'http://localhost:5678/webhook/'
+  },
+  sheets: {
+    spreadsheetId: '',
+    autoSync: false,
+    lastSync: 0
   }
 };
 
